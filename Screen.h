@@ -5,8 +5,8 @@
 class Screen
 {
     public:
-        const static int WIDTH = 960;
-        const static int HEIGHT = 960;
+        const static int WIDTH = 160;
+        const static int HEIGHT = 120;
         Screen();
         virtual ~Screen();
 

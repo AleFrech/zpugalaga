@@ -5,14 +5,14 @@
 class Sprite
 {
     public:
-        const static int WIDTH = 64;
-        const static int HEIGHT = 64;
+        int width;
+        int height;
         int x;
         int y;
         Sprite();
         virtual ~Sprite();
 
-        unsigned char PixelMap[WIDTH][HEIGHT];
+        unsigned char* PixelMap;
     protected:
     private:
 };

@@ -1,17 +1,20 @@
 #ifndef RENDERER_H
 #define RENDERER_H
-#include "Screen.h"
 #include "VGA.h"
-
+#include "Sprite.h"
 
 class Renderer
 {
     public:
-        Renderer(Screen* screen);
+        Renderer();
         virtual ~Renderer();
+        
+        
+        unsigned char* enemyImage;
+        
+        void render(Sprite* sprite);
     protected:
     private:
-        Screen* screen;
 };
 
 #endif // RENDERER_H
