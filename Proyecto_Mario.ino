@@ -117,7 +117,7 @@ Sprite enemies[10];
 Enemy *bees[5];
 Owl *owls[5];
 int spawnTimer = 0;
-int spawnTimerCooldown = (160*30);
+int spawnTimerCooldown = (30*30);
 Spaceship spaceship1(100,SpaceShip);
 Spaceship spaceship2(40, Player2);
 Renderer renderer;
@@ -186,7 +186,8 @@ void loop(){
     
     if(spawnTimer <= 0)
     {  
-      int horizontalCoordinate = rand() % (160-16) + 0;
+      int horizontalCoordinate = (rand() % (9) + 0);
+      horizontalCoordinate*=16;
       int verticalCoordinate = rand() % 20 + 0;    
       if(!bees[i]->active){
         reactivateEntity(bees[i],horizontalCoordinate,verticalCoordinate);
@@ -230,10 +231,19 @@ void loop(){
   if(digitalRead(FPGA_SW_7)){
     spaceship2.shoot(); 
   }
+  
+  if(digitalRead(FPGA_SW_6)){
+    spaceship2.active = true;
+    spaceship1.active = true; 
+    
+    spaceship2.Score =0;
+    spaceship1.Score =0;
+  }
 }
 
 
  void handleCollisions(int i){
+       int highscoreDelta = 1;
        if((Collision(&spaceship1, bees[i]) && bees[i]->active) || (Collision(&spaceship1, owls[i]->projectile) && owls[i]->active))
           spaceship1.active = false;
        if((Collision(&spaceship2, bees[i])&& bees[i]->active) || (Collision(&spaceship2,owls[i]->projectile) && owls[i]->active))
@@ -244,13 +254,13 @@ void loop(){
         {
           bees[i]->active = false;
           spaceship1.projectiles[j]->active = false;
-          spaceship1.Score += 10;
+          spaceship1.Score += highscoreDelta;
         }
         if(Collision(spaceship1.projectiles[j],owls[i]) && owls[i]->active)
         {
           owls[i]->active = false;
           spaceship1.projectiles[j]->active = false;
-          spaceship1.Score += 10;
+          spaceship1.Score += highscoreDelta;
           
         }
       }
@@ -259,13 +269,13 @@ void loop(){
         {
           bees[i]->active = false;
           spaceship2.projectiles[j]->active = false;
-          spaceship2.Score += 10;
+          spaceship2.Score += highscoreDelta;
         }
         if(Collision(spaceship2.projectiles[j],owls[i]) && owls[i]->active)
         {
           owls[i]->active = false;
           spaceship2.projectiles[j]->active = false;
-          spaceship2.Score += 10;
+          spaceship2.Score += highscoreDelta;
         }
       }
     }
@@ -278,4 +288,5 @@ void reactivateEntity(Sprite* sprite, int x, int y)
   sprite->x = x;
   sprite->y = y;
 }
+
 

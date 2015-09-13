@@ -23,6 +23,6 @@ Enemy::~Enemy()
 }
 
 void Enemy::processMovementPattern(){
-    if(y > 120)
+    if(y >= 120)
         y = 0;
 }

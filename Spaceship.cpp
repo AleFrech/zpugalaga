@@ -48,7 +48,7 @@ void Spaceship::processMovementPattern(){
 }
 
 void Spaceship::shoot(){
-  
+  if(active)
   if(shootingCooldownTime == 0)
     for(int c = 0; c<5;c++)
     {
