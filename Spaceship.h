@@ -5,7 +5,7 @@
 class Spaceship: public Sprite
 {
     public:
-        Spaceship();
+        Spaceship(int x, unsigned char *enemyImage);
         virtual ~Spaceship();
         
         int Lives;

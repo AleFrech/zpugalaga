@@ -5,9 +5,8 @@
 class Enemy : public Sprite
 {
     public:
-        Enemy(int x, int y);
+        Enemy(int x, int y, unsigned char *enemyImage);
         virtual ~Enemy();
-        
         
     protected:
     private:

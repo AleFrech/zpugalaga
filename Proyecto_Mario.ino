@@ -4,6 +4,7 @@
 #include <time.h>
 #include "Renderer.h"
 #include "Enemy.h"
+#include "Spaceship.h"
 
 #define LineAmount 6
 #define ObstaculeAmount 5
@@ -610,7 +611,7 @@ void About()
 		 obstacule->lane = newLane;
    }
 }
-unsigned char prueba[] = {BLACK, BLUE, BLACK, BLACK,BLACK, BLACK, YELLOW, BLACK, BLACK,BLACK, BLACK,BLUE, BLACK,
+unsigned char bee[] = {BLACK, BLUE, BLACK, BLACK,BLACK, BLACK, YELLOW, BLACK, BLACK,BLACK, BLACK,BLUE, BLACK,
                           BLACK, BLACK, BLUE, BLACK,YELLOW, RED, YELLOW, RED, YELLOW,BLACK, BLUE,BLACK, BLACK,
                           BLACK, BLACK, BLACK, BLUE,RED, RED, YELLOW, RED, RED,BLUE, BLACK,BLACK, BLACK,
                           BLACK, BLACK, BLACK, BLACK,YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,BLACK, BLACK,BLACK, BLACK,
@@ -621,21 +622,30 @@ unsigned char prueba[] = {BLACK, BLUE, BLACK, BLACK,BLACK, BLACK, YELLOW, BLACK,
                           BLUE, BLUE, BLUE, BLACK,BLACK, RED, RED, RED, BLACK,BLACK, BLUE,BLUE, BLUE,
                           BLUE, BLUE, BLUE, BLACK,BLACK, BLACK, RED, BLACK, BLACK,BLACK, BLUE,BLUE, BLUE,};
  Renderer renderer;
- Enemy enemy(0,0);
+ Enemy enemy(0,0, bee);
+ Spaceship spaceship1(100,SpaceShip);
+ Spaceship spaceship2(40, SpaceShip);
 int xCoor = 0;
 int SpaceX = 70;
 void loop(){
   Start = 9;
-  //renderer.render(&enemy);
-  VGA.writeArea(xCoor,0,13,10,prueba);
-  VGA.writeArea(SpaceX, 80, 16,16, SpaceShip);
-  delay(600);
+  renderer.render(&enemy);
+  renderer.render(&spaceship1);
+  renderer.render(&spaceship2);
+  //VGA.writeArea(xCoor,0,13,10,bee);
+  //VGA.writeArea(SpaceX, 80, 16,16, SpaceShip);
+  delay(75);
   if(digitalRead(FPGA_BTN_1))
-    SpaceX += 16;
+    spaceship1.x += 16;
   else if(digitalRead(FPGA_BTN_0))
-    SpaceX -= 16;
+    spaceship1.x -= 16;
+    
+  if(digitalRead(FPGA_BTN_3))
+    spaceship2.x += 16;
+  else if(digitalRead(FPGA_BTN_2))
+    spaceship2.x -= 16;
   
-  xCoor += 16;
+  enemy.x += 16;
   VGA.clear();
  
   if(Start==0){
