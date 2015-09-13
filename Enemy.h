@@ -8,6 +8,7 @@ class Enemy : public Sprite
         Enemy(int x, int y, unsigned char *enemyImage);
         virtual ~Enemy();
         
+        void processMovementPattern();
     protected:
     private:
 };

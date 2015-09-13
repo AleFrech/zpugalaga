@@ -3,21 +3,23 @@
 #include <stdlib.h>     
 #include <time.h>
 #include "Renderer.h"
+#include "Sprite.h"
 #include "Enemy.h"
+#include "Owl.h"
 #include "Spaceship.h"
+#include "Projectile.h"
 
-#define LineAmount 6
-#define ObstaculeAmount 5
-#define XPositionAmount 3
-#define PointInRectangle(x, y, x1, y1, x2, y2)		((( (x) >= (x1)) && ((y) >= (y1))) && (((x) <= (x2)) && ((y) <= (y2))))
+int PointInRectangle(int x,int y,int x1,int y1,int x2,int y2){
+  	return ((( (x) >= (x1)) && ((y) >= (y1))) && (((x) <= (x2)) && ((y) <= (y2))));
+}
 
-//int Collide(struct Rectangle *r1, struct Rectangle *r2)
-//{
-//	return (PointInRectangle(r1->x1, r1->y1, r2->x1, r2->y1, r2->x2, r2->y2) ||
-//		PointInRectangle(r1->x2, r1->y2, r2->x1, r2->y1, r2->x2, r2->y2) ||
-//		PointInRectangle(r1->x1, r1->y2, r2->x1, r2->y1, r2->x2, r2->y2) ||
-//		PointInRectangle(r1->x2, r1->y1, r2->x1, r2->y1, r2->x2, r2->y2));
-//}
+int Collision(Sprite *s1, Sprite *s2)
+{
+	return (PointInRectangle(s1->x, s1->y, s2->x, s2->y, s2->x+s2->width, s2->y+s2->height) ||
+		PointInRectangle(s1->x+s1->width, s1->y+s1->height, s2->x,s2->y, s2->x+s2->width, s2->y+s2->height) ||
+		PointInRectangle(s1->x, s1->y+s1->height, s2->x, s2->y, s2->x+s2->width, s2->y+s2->height) ||
+		PointInRectangle(s1->x+s1->width, s1->y, s2->x, s2->y, s2->x+s2->width, s2->y+s2->height));
+}
 unsigned char SpaceShip[] = {
 BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,WHITE,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
 BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,WHITE,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
@@ -36,6 +38,8 @@ WHITE,WHITE,WHITE,WHITE,BLACK,RED,RED,WHITE,WHITE,RED,RED,BLACK,WHITE,WHITE,WHIT
 WHITE,WHITE,WHITE,WHITE,BLACK,RED,RED,WHITE,WHITE,RED,RED,BLACK,WHITE,WHITE,WHITE,WHITE,
 WHITE,WHITE,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,WHITE,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,WHITE
 };
+
+unsigned char Player2[256] ;
 
 unsigned char Heart[]=
 {
@@ -59,38 +63,132 @@ unsigned char bee[] = {BLACK, BLUE, BLACK, BLACK,BLACK, BLACK, YELLOW, BLACK, BL
                           BLUE, BLUE, BLUE, BLUE,BLACK, YELLOW, YELLOW, YELLOW, BLACK,BLUE, BLUE,BLUE, BLUE,
                           BLUE, BLUE, BLUE, BLACK,BLACK, RED, RED, RED, BLACK,BLACK, BLUE,BLUE, BLUE,
                           BLUE, BLUE, BLUE, BLACK,BLACK, BLACK, RED, BLACK, BLACK,BLACK, BLUE,BLUE, BLUE,};
+                          
+unsigned char enemySpaceship[] = {
+BLACK,BLACK,YELLOW,YELLOW,BLACK,RED,RED,GREEN,GREEN,RED,RED,BLACK,YELLOW,YELLOW,BLACK,BLACK,
+BLACK,GREEN,YELLOW,YELLOW,GREEN,RED,RED,GREEN,GREEN,RED,RED,GREEN,YELLOW,YELLOW,GREEN,BLACK,
+BLACK,GREEN,YELLOW,YELLOW,GREEN,RED,RED,RED,RED,RED,RED,GREEN,YELLOW,YELLOW,GREEN,BLACK,
+BLACK,GREEN,GREEN,GREEN,GREEN,RED,RED,RED,RED,RED,RED,GREEN,GREEN,GREEN,GREEN,BLACK,
+BLACK,GREEN,GREEN,GREEN,GREEN,RED,RED,RED,RED,RED,RED,GREEN,GREEN,GREEN,GREEN,BLACK,
+BLACK,GREEN,GREEN,GREEN,GREEN,RED,RED,RED,RED,RED,RED,GREEN,GREEN,GREEN,GREEN,BLACK,
+BLACK,GREEN,GREEN,GREEN,GREEN,RED,RED,GREEN,GREEN,RED,RED,GREEN,GREEN,GREEN,GREEN,BLACK,
+RED,RED,GREEN,BLACK,BLACK,RED,RED,GREEN,GREEN,RED,RED,BLACK,BLACK,GREEN,RED,RED,
+RED,RED,RED,BLACK,BLACK,BLACK,GREEN,GREEN,GREEN,GREEN,BLACK,BLACK,BLACK,RED,RED,RED,
+GREEN,RED,RED,BLACK,BLACK,BLACK,GREEN,GREEN,GREEN,GREEN,BLACK,BLACK,BLACK,RED,RED,GREEN,
+GREEN,GREEN,BLACK,BLACK,BLACK,BLACK,GREEN,GREEN,GREEN,GREEN,BLACK,BLACK,BLACK,BLACK,GREEN,GREEN,
+GREEN,GREEN,BLACK,BLACK,BLACK,BLACK,GREEN,GREEN,GREEN,GREEN,BLACK,BLACK,BLACK,BLACK,GREEN,GREEN,
+GREEN,GREEN,BLACK,BLACK,BLACK,BLACK,GREEN,YELLOW,YELLOW,GREEN,BLACK,BLACK,BLACK,BLACK,GREEN,GREEN,
+GREEN,GREEN,BLACK,BLACK,BLACK,BLACK,GREEN,YELLOW,YELLOW,GREEN,BLACK,BLACK,BLACK,BLACK,GREEN,GREEN,
+GREEN,GREEN,BLACK,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,BLACK,GREEN,GREEN,
+GREEN,GREEN,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,GREEN,GREEN
+};
+
+unsigned char owl[] = {
+BLACK,BLACK,BLACK,BLUE,BLUE,BLUE,BLACK,BLACK,BLACK,BLACK,BLUE,BLUE,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLUE,BLUE,BLACK,BLACK,BLACK,BLACK,BLUE,BLUE,BLACK,BLACK,BLACK,BLACK,
+BLUE,BLUE,BLUE,RED,RED,RED,BLUE,BLUE,BLUE,BLUE,RED,RED,RED,BLUE,BLUE,BLUE,
+BLUE,BLUE,BLUE,RED,RED,RED,BLUE,BLUE,BLUE,BLUE,RED,RED,RED,BLUE,BLUE,BLUE,
+BLACK,BLUE,BLUE,RED,RED,RED,BLUE,BLUE,BLUE,BLUE,RED,RED,RED,BLUE,BLUE,BLACK,
+BLACK,BLACK,BLACK,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,
+BLACK,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLACK,
+BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,
+BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,
+BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,
+BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,
+BLUE,BLUE,BLUE,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK,BLUE,BLUE,BLUE,
+BLACK,BLUE,BLUE,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK,BLUE,BLUE,BLACK,
+BLACK,BLACK,BLUE,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK,BLUE,BLACK,BLACK,
+};
+
+unsigned char projectile[] = {BLACK, BLUE, BLACK,BLUE,BLUE,BLUE,BLUE,WHITE,BLUE,BLACK,RED,BLACK,BLACK,RED,BLACK,BLACK,RED,BLACK};
+
+Sprite enemies[10];
+int spawnTimer = 0;
+Sprite createEntity(int x, int y, char instanceOf)
+{
+    switch(instanceOf)
+    {
+      case 'B' :
+        return Enemy(x,y,bee);
+        break;
+      case 'O' :
+        return Owl(x,y,owl);
+        break;
+    }
+}
 
 void setup(){
    srand(0);
   VGA.begin(VGAWISHBONESLOT(9),CHARMAPWISHBONESLOT(10));
   Serial.begin(9600);
   
+  for(int i = 0; i<256; i++){
+      if(SpaceShip[i] == WHITE)
+        Player2[i] = RED;
+      else if(SpaceShip[i] == RED)
+        Player2[i] = BLUE;
+      else if(SpaceShip[i] == BLUE)
+        Player2[i] = YELLOW;
+      else
+        Player2[i] = SpaceShip[i];
+  }
   
+  enemies[0] = createEntity(0,0,'B');
 }
  Renderer renderer;
- Enemy enemy(0,0, bee);
+ Owl enemy(0,0, owl);
  Spaceship spaceship1(100,SpaceShip);
- Spaceship spaceship2(40, SpaceShip);
+ Spaceship spaceship2(40, Player2);
+ //Owl enemy2(20,20, owl);
+
 
 void loop(){
-
+  VGA.clear();
+  char* scorePrint;
+  VGA.setColor(WHITE);
+  //VGA.writeArea(70,80, 3,6,projectile);
+  //VGA.printtext(0,0,"P1:");
+  //itoa(enemy2.goalY,scorePrint,10);
+  //enemy2.goalVGA.printtext(30,0,scorePrint);
+  if(Collision(&spaceship1,&enemy))
+      VGA.printtext(0,0,"P1:");    
+  spaceship1.move();
+  spaceship2.move();
+  //enemy2.move();
+  enemy.move();
   renderer.render(&enemy);
   renderer.render(&spaceship1);
   renderer.render(&spaceship2);
+  
+  //renderer.render(&enemy2);
   //VGA.writeArea(xCoor,0,13,10,bee);
-  //VGA.writeArea(SpaceX, 80, 16,16, SpaceShip);
-  delay(75);
+  //VGA.writeArea(32, 0, 16,16, enemySpaceship);
+  //VGA.writeArea(16, 0, 16,16, enemy3);
+  delay(2);
   if(digitalRead(FPGA_BTN_1))
-    spaceship1.x += 16;
+  {
+    spaceship1.setMovement('r');
+  }
   else if(digitalRead(FPGA_BTN_0))
-    spaceship1.x -= 16;
+    spaceship1.setMovement('l');
+   else{
+     spaceship1.movement = false;
+   }
     
   if(digitalRead(FPGA_BTN_3))
-    spaceship2.x += 16;
+    spaceship2.setMovement('r');
   else if(digitalRead(FPGA_BTN_2))
-    spaceship2.x -= 16;
+    spaceship2.setMovement('l');
+    else{
+     spaceship2.movement = false;
+   }
+  if(digitalRead(FPGA_SW_0)){
+    Projectile proj(spaceship1.x, spaceship1.y, projectile);
+    renderer.render(&proj);
+  }
+    
   
-  enemy.x += 16;
-  VGA.clear();
   
 }

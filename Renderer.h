@@ -13,6 +13,7 @@ class Renderer
         unsigned char* enemyImage;
         
         void render(Sprite* sprite);
+        void clear();
     protected:
     private:
 };

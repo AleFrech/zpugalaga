@@ -9,6 +9,9 @@ class Spaceship: public Sprite
         virtual ~Spaceship();
         
         int Lives;
+        int Score;
+        
+        void processMovementPattern();
     protected:
     private:
 };
