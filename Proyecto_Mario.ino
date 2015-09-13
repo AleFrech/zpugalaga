@@ -192,6 +192,10 @@ void loop(){
         reactivateEntity(bees[i],horizontalCoordinate,verticalCoordinate);
         spawnTimer = spawnTimerCooldown;
       }
+      if(!owls[i]->active){
+        reactivateEntity(owls[i],horizontalCoordinate,verticalCoordinate);
+        spawnTimer = spawnTimerCooldown;
+      }
     }
         
   handleCollisions(i);
@@ -230,9 +234,9 @@ void loop(){
 
 
  void handleCollisions(int i){
-       if(Collision(&spaceship1, bees[i]) || Collision(&spaceship1, owls[i]))
+       if((Collision(&spaceship1, bees[i]) && bees[i]->active) || (Collision(&spaceship1, owls[i]->projectile) && owls[i]->active))
           spaceship1.active = false;
-       if(Collision(&spaceship2, bees[i]) || Collision(&spaceship2,owls[i]))
+       if((Collision(&spaceship2, bees[i])&& bees[i]->active) || (Collision(&spaceship2,owls[i]->projectile) && owls[i]->active))
           spaceship2.active = false;
        for(int j = 0; j<5; j++){
       if(spaceship1.projectiles[j]->active){

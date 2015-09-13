@@ -14,7 +14,7 @@ Enemy::Enemy(int x, int y, unsigned char* enemyImage)
   direction = 'd';
   movementRate = 20;
   movementCounter = 0;
-  active = true;
+  active = false;
 }
 
 Enemy::~Enemy()

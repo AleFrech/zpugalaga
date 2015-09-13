@@ -19,7 +19,7 @@ Owl::Owl(int x, int y, unsigned char* enemyImage)
   goalX = 160 - width;
   goalY = y + height;
   axisToggle = false;
-  active = true;
+  active = false;
 }
 
 Owl::~Owl()
@@ -45,7 +45,8 @@ void Owl::processMovementPattern(){
           }
           
       }
-  this->shoot();
+      if(this->active)
+        this->shoot();
   if(shootingCooldownTime > 0)
       shootingCooldownTime--;
   if(projectile->active)
