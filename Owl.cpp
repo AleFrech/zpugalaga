@@ -31,14 +31,20 @@ void Owl::shoot(){
   
   if(shootingCooldownTime == 0)
       if(!projectile->active){
-          projectile->activate(x+8,y+height);
+          projectile->activate(x+8,y);
           shootingCooldownTime = shootingCooldownRate;      
     }
 }
 
 void Owl::processMovementPattern(){
    
-//    direction = 'd';
+
+  if(projectile->active){
+          if(projectile->y >120 ){
+              projectile->active = false;              
+          }
+          
+      }
   this->shoot();
   if(shootingCooldownTime > 0)
       shootingCooldownTime--;

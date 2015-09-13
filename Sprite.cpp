@@ -29,6 +29,7 @@ void Sprite::move(){
         }
       }
    } 
+  
 }
 
 void Sprite::setMovement(char direction){

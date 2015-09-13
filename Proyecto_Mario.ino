@@ -39,6 +39,15 @@ WHITE,WHITE,WHITE,WHITE,BLACK,RED,RED,WHITE,WHITE,RED,RED,BLACK,WHITE,WHITE,WHIT
 WHITE,WHITE,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,WHITE,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,WHITE
 };
 
+unsigned char projectileOwl[] = {
+BLACK,YELLOW,BLACK,
+BLACK,YELLOW,BLACK,
+BLACK,YELLOW,BLACK,
+RED,CYAN,RED,
+RED,CYAN,RED,
+BLACK,RED,BLACK
+};
+
 unsigned char Player2[256] ;
 
 unsigned char Heart[]=
@@ -145,7 +154,7 @@ void setup(){
   for(int i = 0; i<5; i++){
     bees[i] = (Enemy*)createEntity(i*10,0,'B');
     owls[i] = (Owl*)createEntity(0,i*16,'O');
-    owls[i]->initProjectile(projectile);
+    owls[i]->initProjectile(projectileOwl);
   }
   spaceship1.initProjectiles(projectile);
   spaceship2.initProjectiles(projectile);
