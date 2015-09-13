@@ -1,7 +1,7 @@
 #ifndef SPACESHIP_H
 #define SPACESHIP_H
 #include "Sprite.h"
-
+#include "Projectile.h"
 class Spaceship: public Sprite
 {
     public:
@@ -10,8 +10,10 @@ class Spaceship: public Sprite
         
         int Lives;
         int Score;
-        
+        void shoot();
         void processMovementPattern();
+        void initProjectiles(unsigned char * image);
+        Projectile* projectiles[5];
     protected:
     private:
 };

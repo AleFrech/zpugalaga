@@ -1,6 +1,7 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
+ 
 
 class Sprite
 {
@@ -10,16 +11,20 @@ class Sprite
         int x;
         int y;
         bool movement;
+        bool active;
         char instanceOf;
         char direction;
         int movementRate;
         int movementCounter;
         unsigned char* PixelMap;
+        int shootingCooldownRate;
+        int shootingCooldownTime;
         
         Sprite();
         virtual ~Sprite();
         
         virtual void processMovementPattern();
+        virtual void shoot();
         void move();
         void setMovement(char direction);
     protected:

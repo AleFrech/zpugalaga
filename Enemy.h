@@ -9,6 +9,7 @@ class Enemy : public Sprite
         virtual ~Enemy();
         
         void processMovementPattern();
+        void shoot(unsigned char* image);
     protected:
     private:
 };

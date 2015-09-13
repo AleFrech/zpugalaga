@@ -7,7 +7,9 @@ class Projectile : public Sprite
 {
     public:
         Projectile(int x, int y, unsigned char *image);
+        
         virtual ~Projectile();
+        void activate(int x,int y);
     protected:
     private:
 };

@@ -105,22 +105,30 @@ BLACK,BLACK,BLUE,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK
 unsigned char projectile[] = {BLACK, BLUE, BLACK,BLUE,BLUE,BLUE,BLUE,WHITE,BLUE,BLACK,RED,BLACK,BLACK,RED,BLACK,BLACK,RED,BLACK};
 
 Sprite enemies[10];
+Enemy *bees[5];
+Owl *owls[5];
 int spawnTimer = 0;
-Sprite createEntity(int x, int y, char instanceOf)
+int spawnTimerCooldown = (160*30);
+Spaceship spaceship1(100,SpaceShip);
+Spaceship spaceship2(40, Player2);
+Renderer renderer;
+Sprite* createEntity(int x, int y, char instanceOf)
 {
     switch(instanceOf)
     {
       case 'B' :
-        return Enemy(x,y,bee);
+        return new Enemy(x,y,bee);
         break;
       case 'O' :
-        return Owl(x,y,owl);
+        return new Owl(x,y,owl);
         break;
     }
 }
 
+void reactivateEntity(Sprite*sprite,int x, int y); 
+ 
 void setup(){
-   srand(0);
+  
   VGA.begin(VGAWISHBONESLOT(9),CHARMAPWISHBONESLOT(10));
   Serial.begin(9600);
   
@@ -134,38 +142,56 @@ void setup(){
       else
         Player2[i] = SpaceShip[i];
   }
-  
-  enemies[0] = createEntity(0,0,'B');
+  for(int i = 0; i<5; i++){
+    bees[i] = (Enemy*)createEntity(i*10,0,'B');
+    owls[i] = (Owl*)createEntity(0,i*16,'O');
+    owls[i]->initProjectile(projectile);
+  }
+  spaceship1.initProjectiles(projectile);
+  spaceship2.initProjectiles(projectile);
 }
- Renderer renderer;
- Owl enemy(0,0, owl);
- Spaceship spaceship1(100,SpaceShip);
- Spaceship spaceship2(40, Player2);
- //Owl enemy2(20,20, owl);
+ 
 
+  void handleCollisions(int i);
 
 void loop(){
   VGA.clear();
-  char* scorePrint;
+  char* scorePlayer1;
+  char* scorePlayer2;
+  VGA.printtext(0, 0, "P1:");
+  itoa(spaceship1.Score,scorePlayer1,10);
+  VGA.printtext(30, 0, scorePlayer1);
+  VGA.printtext(100, 0, "P2:");
+  itoa(spaceship2.Score,scorePlayer2,10);
+  VGA.printtext(130, 0, scorePlayer2);
   VGA.setColor(WHITE);
-  //VGA.writeArea(70,80, 3,6,projectile);
-  //VGA.printtext(0,0,"P1:");
-  //itoa(enemy2.goalY,scorePrint,10);
-  //enemy2.goalVGA.printtext(30,0,scorePrint);
-  if(Collision(&spaceship1,&enemy))
-      VGA.printtext(0,0,"P1:");    
+  
   spaceship1.move();
   spaceship2.move();
-  //enemy2.move();
-  enemy.move();
-  renderer.render(&enemy);
+
+  for(int i = 0; i<5; i++){
+    bees[i]->move();
+    owls[i]->move();
+    renderer.render(bees[i]);
+    renderer.render(owls[i]);
+    
+    if(spawnTimer <= 0)
+    {  
+      int horizontalCoordinate = rand() % (160-16) + 0;
+      int verticalCoordinate = rand() % 20 + 0;    
+      if(!bees[i]->active){
+        reactivateEntity(bees[i],horizontalCoordinate,verticalCoordinate);
+        spawnTimer = spawnTimerCooldown;
+      }
+    }
+        
+  handleCollisions(i);
+  spawnTimer--;  
+  
+  
   renderer.render(&spaceship1);
   renderer.render(&spaceship2);
-  
-  //renderer.render(&enemy2);
-  //VGA.writeArea(xCoor,0,13,10,bee);
-  //VGA.writeArea(32, 0, 16,16, enemySpaceship);
-  //VGA.writeArea(16, 0, 16,16, enemy3);
+  }
   delay(2);
   if(digitalRead(FPGA_BTN_1))
   {
@@ -185,10 +211,58 @@ void loop(){
      spaceship2.movement = false;
    }
   if(digitalRead(FPGA_SW_0)){
-    Projectile proj(spaceship1.x, spaceship1.y, projectile);
-    renderer.render(&proj);
-  }
+    spaceship1.shoot();
     
-  
-  
+  }
+  if(digitalRead(FPGA_SW_7)){
+    spaceship2.shoot(); 
+  }
 }
+
+
+ void handleCollisions(int i){
+       if(Collision(&spaceship1, bees[i]) || Collision(&spaceship1, owls[i]))
+          spaceship1.active = false;
+       if(Collision(&spaceship2, bees[i]) || Collision(&spaceship2,owls[i]))
+          spaceship2.active = false;
+       for(int j = 0; j<5; j++){
+      if(spaceship1.projectiles[j]->active){
+        if(Collision(spaceship1.projectiles[j],bees[i]) && bees[i]->active)
+        {
+          bees[i]->active = false;
+          spaceship1.projectiles[j]->active = false;
+          spaceship1.Score += 10;
+        }
+        if(Collision(spaceship1.projectiles[j],owls[i]) && owls[i]->active)
+        {
+          owls[i]->active = false;
+          spaceship1.projectiles[j]->active = false;
+          spaceship1.Score += 10;
+          
+        }
+      }
+      if(spaceship2.projectiles[j]->active){
+        if(Collision(spaceship2.projectiles[j],bees[i]) && bees[i]->active)
+        {
+          bees[i]->active = false;
+          spaceship2.projectiles[j]->active = false;
+          spaceship2.Score += 10;
+        }
+        if(Collision(spaceship2.projectiles[j],owls[i]) && owls[i]->active)
+        {
+          owls[i]->active = false;
+          spaceship2.projectiles[j]->active = false;
+          spaceship2.Score += 10;
+        }
+      }
+    }
+  }
+  
+  
+void reactivateEntity(Sprite* sprite, int x, int y)
+{
+  sprite->active = true;
+  sprite->x = x;
+  sprite->y = y;
+}
+

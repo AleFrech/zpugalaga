@@ -1,6 +1,7 @@
 #ifndef OWL_H
 #define OWL_H
 #include "Sprite.h"
+#include "Projectile.h"
 
 class Owl : public Sprite
 {
@@ -11,8 +12,11 @@ class Owl : public Sprite
         int goalX;
         int goalY;
         bool axisToggle;
+        Projectile* projectile;
         
         void processMovementPattern();
+        void initProjectile(unsigned char * image);
+        void shoot();
     protected:
     private:
 };

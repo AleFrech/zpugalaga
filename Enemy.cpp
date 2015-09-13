@@ -14,6 +14,7 @@ Enemy::Enemy(int x, int y, unsigned char* enemyImage)
   direction = 'd';
   movementRate = 20;
   movementCounter = 0;
+  active = true;
 }
 
 Enemy::~Enemy()
@@ -22,6 +23,6 @@ Enemy::~Enemy()
 }
 
 void Enemy::processMovementPattern(){
-    if(y > 60)
+    if(y > 120)
         y = 0;
 }

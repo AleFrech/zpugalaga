@@ -38,3 +38,6 @@ void Sprite::setMovement(char direction){
 
 void Sprite::processMovementPattern(){
 }
+
+void Sprite::shoot(){
+}
