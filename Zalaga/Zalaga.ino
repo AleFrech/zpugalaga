@@ -174,7 +174,7 @@ BLACK,BLACK,BLUE,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK
 unsigned char projectile[] = {BLACK, BLUE, BLACK,BLUE,BLUE,BLUE,BLUE,WHITE,BLUE,BLACK,RED,BLACK,BLACK,RED,BLACK,BLACK,RED,BLACK};
 
 
-int gameState = 1;
+int gameState = 0;
 
 Sprite enemies[10];
 Enemy *bees[5];
@@ -325,8 +325,11 @@ void mainMenu() {
   if(digitalRead(FPGA_BTN_0))
     if(!digitalRead(FPGA_SW_0)){
       gameState = 1;
-    }else
+      VGA.clear();
+    }else{
       gameState = 2;
+      VGA.clear();
+    }
 }
       
 
@@ -336,8 +339,10 @@ void credits()
   VGA.printtext(20, 25,"Alejandro Frech");
   VGA.printtext(20, 55,"Brandon Napky");
   VGA.printtext(20, 85,"Manuel Salguero");
-  if(digitalRead(FPGA_BTN_1))
+  if(digitalRead(FPGA_BTN_1)){
     gameState = 0;
+    VGA.clear();  
+  }
 }
 
 void gameplay()
@@ -345,7 +350,7 @@ void gameplay()
     if(!spaceship1.active && !spaceship2.active){
       gameState = 3;
       VGA.clear();
-      return;
+      return; 
     }
     VGA.clear();
     char scorePlayer1[4];
