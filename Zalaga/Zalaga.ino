@@ -9,6 +9,8 @@
 #include "Spaceship.h"
 #include "Projectile.h"
 
+
+
 int PointInRectangle(int x,int y,int x1,int y1,int x2,int y2){
   	return ((( (x) >= (x1)) && ((y) >= (y1))) && (((x) <= (x2)) && ((y) <= (y2))));
 }
@@ -39,13 +41,71 @@ WHITE,WHITE,WHITE,WHITE,BLACK,RED,RED,WHITE,WHITE,RED,RED,BLACK,WHITE,WHITE,WHIT
 WHITE,WHITE,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,WHITE,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,WHITE
 };
 
+unsigned char uranus[] = {
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,YELLOW,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLACK,YELLOW,YELLOW,YELLOW,BLACK,BLACK,YELLOW,YELLOW,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLUE,BLUE,GREEN,GREEN,BLUE,GREEN,GREEN,GREEN,BLUE,BLUE,YELLOW,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,YELLOW,YELLOW,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,GREEN,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,BLACK,YELLOW,YELLOW,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,GREEN,GREEN,YELLOW,YELLOW,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,YELLOW,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,BLUE,BLUE,GREEN,GREEN,BLUE,BLUE,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,BLUE,GREEN,GREEN,GREEN,GREEN,BLUE,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLUE,GREEN,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,YELLOW,BLUE,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,BLUE,BLUE,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,YELLOW,YELLOW,YELLOW,BLUE,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,BLUE,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLUE,GREEN,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,BLUE,GREEN,BLUE,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,YELLOW,YELLOW,BLACK,BLACK,YELLOW,YELLOW,YELLOW,YELLOW,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,YELLOW,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK
+};
+
+unsigned char uranusOnFire[] = {
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,YELLOW,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLACK,YELLOW,YELLOW,YELLOW,BLACK,BLACK,YELLOW,YELLOW,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLUE,BLUE,GREEN,GREEN,RED,GREEN,GREEN,GREEN,BLUE,BLUE,YELLOW,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,RED,RED,GREEN,GREEN,GREEN,GREEN,GREEN,RED,BLACK,BLACK,YELLOW,YELLOW,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,GREEN,RED,GREEN,GREEN,GREEN,GREEN,GREEN,RED,RED,RED,BLACK,YELLOW,YELLOW,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,RED,GREEN,GREEN,GREEN,RED,RED,RED,GREEN,GREEN,YELLOW,YELLOW,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,BLUE,GREEN,GREEN,GREEN,GREEN,GREEN,RED,RED,RED,RED,RED,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,RED,RED,RED,RED,RED,RED,RED,RED,GREEN,GREEN,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,RED,RED,RED,RED,RED,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,YELLOW,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,GREEN,RED,RED,RED,RED,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,RED,RED,GREEN,GREEN,RED,RED,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLUE,GREEN,GREEN,GREEN,RED,GREEN,GREEN,GREEN,GREEN,RED,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLUE,GREEN,RED,RED,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,YELLOW,BLUE,RED,RED,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,RED,RED,GREEN,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,YELLOW,YELLOW,YELLOW,BLUE,GREEN,GREEN,GREEN,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,RED,GREEN,GREEN,BLUE,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLUE,GREEN,GREEN,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,RED,GREEN,BLUE,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,YELLOW,YELLOW,GREEN,GREEN,GREEN,GREEN,BLUE,BLUE,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,YELLOW,YELLOW,BLACK,BLACK,YELLOW,YELLOW,YELLOW,YELLOW,BLUE,BLUE,BLUE,BLUE,BLUE,BLUE,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,YELLOW,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK
+};
+
 unsigned char projectileOwl[] = {
-BLACK,YELLOW,BLACK,
-BLACK,YELLOW,BLACK,
-BLACK,YELLOW,BLACK,
-RED,CYAN,RED,
-RED,CYAN,RED,
-BLACK,RED,BLACK
+BLACK,BLACK,BLACK,BLACK,BLACK,RED,RED,BLACK,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,BLACK,RED,RED,RED,RED,BLACK,BLACK,BLACK,BLACK,
+BLACK,BLACK,BLACK,RED,RED,RED,RED,RED,RED,BLACK,BLACK,BLACK,
+BLACK,BLACK,RED,RED,YELLOW,YELLOW,YELLOW,YELLOW,RED,RED,BLACK,BLACK,
+BLACK,RED,RED,YELLOW,YELLOW,YELLOW,WHITE,WHITE,YELLOW,RED,RED,BLACK,
+BLACK,RED,RED,YELLOW,YELLOW,YELLOW,WHITE,WHITE,YELLOW,RED,RED,BLACK,
+BLACK,RED,RED,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,RED,RED,BLACK,
+BLACK,RED,RED,RED,YELLOW,YELLOW,YELLOW,YELLOW,YELLOW,RED,RED,BLACK,
+BLACK,BLACK,RED,RED,YELLOW,YELLOW,YELLOW,YELLOW,RED,RED,BLACK,BLACK,
+BLACK,BLACK,BLACK,RED,RED,RED,RED,RED,RED,BLACK,BLACK,BLACK
 };
 
 unsigned char Player2[256] ;
@@ -113,14 +173,29 @@ BLACK,BLACK,BLUE,BLACK,YELLOW,YELLOW,BLACK,BLACK,BLACK,BLACK,YELLOW,YELLOW,BLACK
 
 unsigned char projectile[] = {BLACK, BLUE, BLACK,BLUE,BLUE,BLUE,BLUE,WHITE,BLUE,BLACK,RED,BLACK,BLACK,RED,BLACK,BLACK,RED,BLACK};
 
+
+int gameState = 1;
+
 Sprite enemies[10];
 Enemy *bees[5];
 Owl *owls[5];
 int spawnTimer = 0;
-int spawnTimerCooldown = (30*30);
-Spaceship spaceship1(100,SpaceShip);
-Spaceship spaceship2(40, Player2);
+int spawnTimerCooldown = (30*10);
+Spaceship spaceship1(40,SpaceShip);
+Spaceship spaceship2(100, Player2);
 Renderer renderer;
+
+//text
+char zalagaText[] = "Zalaga";
+char creditsText[] = "Credits";
+char playGameText[] = "Play Game";
+
+//screens
+void mainMenu();
+void credits();
+void gameplay();
+void gameOver();
+
 Sprite* createEntity(int x, int y, char instanceOf)
 {
     switch(instanceOf)
@@ -164,89 +239,27 @@ void setup(){
   void handleCollisions(int i);
 
 void loop(){
-  VGA.clear();
-  char* scorePlayer1;
-  char* scorePlayer2;
-  VGA.printtext(0, 0, "P1:");
-  itoa(spaceship1.Score,scorePlayer1,10);
-  VGA.printtext(30, 0, scorePlayer1);
-  VGA.printtext(100, 0, "P2:");
-  itoa(spaceship2.Score,scorePlayer2,10);
-  VGA.printtext(130, 0, scorePlayer2);
-  VGA.setColor(WHITE);
   
-  spaceship1.move();
-  spaceship2.move();
-
-  for(int i = 0; i<5; i++){
-    bees[i]->move();
-    owls[i]->move();
-    renderer.render(bees[i]);
-    renderer.render(owls[i]);
-    
-    if(spawnTimer <= 0)
-    {  
-      int horizontalCoordinate = (rand() % (9) + 0);
-      horizontalCoordinate*=16;
-      int verticalCoordinate = rand() % 20 + 0;    
-      if(!bees[i]->active){
-        reactivateEntity(bees[i],horizontalCoordinate,verticalCoordinate);
-        spawnTimer = spawnTimerCooldown;
-      }
-      if(!owls[i]->active){
-        reactivateEntity(owls[i],horizontalCoordinate,verticalCoordinate);
-        spawnTimer = spawnTimerCooldown;
-      }
-    }
-        
-  handleCollisions(i);
-  spawnTimer--;  
-  
-  
-  renderer.render(&spaceship1);
-  renderer.render(&spaceship2);
-  }
-  delay(2);
-  if(digitalRead(FPGA_BTN_1))
+  if(gameState == 0) 
+    mainMenu();
+  else if(gameState == 1) 
+     gameplay();
+  else if(gameState == 2)
+    credits();
+  else if(gameState == 3)
   {
-    spaceship1.setMovement('r');
-  }
-  else if(digitalRead(FPGA_BTN_0))
-    spaceship1.setMovement('l');
-   else{
-     spaceship1.movement = false;
-   }
-    
-  if(digitalRead(FPGA_BTN_3))
-    spaceship2.setMovement('r');
-  else if(digitalRead(FPGA_BTN_2))
-    spaceship2.setMovement('l');
-    else{
-     spaceship2.movement = false;
-   }
-  if(digitalRead(FPGA_SW_0)){
-    spaceship1.shoot();
-    
-  }
-  if(digitalRead(FPGA_SW_7)){
-    spaceship2.shoot(); 
+    gameOver();
   }
   
-  if(digitalRead(FPGA_SW_6)){
-    spaceship2.active = true;
-    spaceship1.active = true; 
-    
-    spaceship2.Score =0;
-    spaceship1.Score =0;
-  }
+
 }
 
 
  void handleCollisions(int i){
        int highscoreDelta = 1;
-       if((Collision(&spaceship1, bees[i]) && bees[i]->active) || (Collision(&spaceship1, owls[i]->projectile) && owls[i]->active))
+       if((Collision(&spaceship1, bees[i]) && bees[i]->active) || (Collision(&spaceship1, owls[i]->projectile) && owls[i]->projectile->active))
           spaceship1.active = false;
-       if((Collision(&spaceship2, bees[i])&& bees[i]->active) || (Collision(&spaceship2,owls[i]->projectile) && owls[i]->active))
+       if((Collision(&spaceship2, bees[i])&& bees[i]->active) || (Collision(&spaceship2,owls[i]->projectile)   && owls[i]->projectile->active))
           spaceship2.active = false;
        for(int j = 0; j<5; j++){
       if(spaceship1.projectiles[j]->active){
@@ -259,6 +272,7 @@ void loop(){
         if(Collision(spaceship1.projectiles[j],owls[i]) && owls[i]->active)
         {
           owls[i]->active = false;
+//          owls[i]->projectile->active = false;
           spaceship1.projectiles[j]->active = false;
           spaceship1.Score += highscoreDelta;
           
@@ -289,4 +303,170 @@ void reactivateEntity(Sprite* sprite, int x, int y)
   sprite->y = y;
 }
 
+void mainMenu() {
+  
+  VGA.writeArea(20,20,24,24,uranus);
+  
+  
+  VGA.printtext(60, 30,zalagaText);
+  if(!digitalRead(FPGA_SW_0)){
+    VGA.setColor(BLUE);
+  }
+  VGA.printtext(48,53, playGameText);
+  VGA.setColor(WHITE);
+  if(digitalRead(FPGA_SW_0)){
+    VGA.setColor(BLUE);
+  }
+  VGA.printtext(55,73,creditsText);
+  VGA.printtext(55,73,creditsText);
+  VGA.printtext(55,73,creditsText);
+  
+  VGA.setColor(WHITE);
+  if(digitalRead(FPGA_BTN_0))
+    if(!digitalRead(FPGA_SW_0)){
+      gameState = 1;
+    }else
+      gameState = 2;
+}
+      
+
+void credits()
+{
+  VGA.setColor(WHITE);
+  VGA.printtext(20, 25,"Alejandro Frech");
+  VGA.printtext(20, 55,"Brandon Napky");
+  VGA.printtext(20, 85,"Manuel Salguero");
+  if(digitalRead(FPGA_BTN_1))
+    gameState = 0;
+}
+
+void gameplay()
+{  
+    if(!spaceship1.active && !spaceship2.active){
+      gameState = 3;
+      VGA.clear();
+      return;
+    }
+    VGA.clear();
+    char scorePlayer1[4];
+    char scorePlayer2[4];
+    VGA.printtext(0, 0, "P1:");
+    itoa(spaceship1.Score,scorePlayer1,10);
+    VGA.printtext(30, 0, scorePlayer1);
+    VGA.printtext(110, 0, "P2:");
+    itoa(spaceship2.Score,scorePlayer2,10);
+    VGA.printtext(140, 0, scorePlayer2);
+    VGA.setColor(WHITE);
+    
+    spaceship1.move();
+    spaceship2.move();
+  
+    for(int i = 0; i<5; i++){
+      bees[i]->move();
+      owls[i]->move();
+      renderer.render(bees[i]);
+      renderer.render(owls[i]);
+      
+      if(spawnTimer <= 0)
+      {  
+        int horizontalCoordinate = (rand() % (9) + 0);
+        horizontalCoordinate*=16;
+        int verticalCoordinate = rand() % 25 + 5;    
+        if(!bees[i]->active){
+          reactivateEntity(bees[i],horizontalCoordinate,verticalCoordinate);
+          spawnTimer = spawnTimerCooldown;
+        }
+        if(!owls[i]->active){
+          reactivateEntity(owls[i],horizontalCoordinate,verticalCoordinate);
+          spawnTimer = spawnTimerCooldown;
+        }
+      }
+          
+    handleCollisions(i);
+    spawnTimer--;  
+    
+    
+    renderer.render(&spaceship1);
+    renderer.render(&spaceship2);
+    }
+    delay(2);
+    if(digitalRead(FPGA_BTN_1))
+    {
+      spaceship1.setMovement('r');
+    }
+    else if(digitalRead(FPGA_BTN_0))
+      spaceship1.setMovement('l');
+     else{
+       spaceship1.movement = false;
+     }
+      
+    if(digitalRead(FPGA_BTN_3))
+      spaceship2.setMovement('r');
+    else if(digitalRead(FPGA_BTN_2))
+      spaceship2.setMovement('l');
+      else{
+       spaceship2.movement = false;
+     }
+    if(digitalRead(FPGA_SW_0)){
+      spaceship1.shoot();
+      
+    }
+    if(digitalRead(FPGA_SW_7)){
+      spaceship2.shoot(); 
+    }
+    
+    if(digitalRead(FPGA_SW_4) && digitalRead(FPGA_SW_5) && digitalRead(FPGA_SW_6)){
+      spaceship2.active = true;
+      spaceship1.active = true; 
+      
+      spaceship2.Score =0;
+      spaceship1.Score =0;
+    }
+}
+
+void gameOver()
+{
+
+   VGA.printtext(42, 30, "Game Over");
+   VGA.setColor(RED);
+   
+   
+     VGA.writeArea(65,55,24,24,uranusOnFire);
+   
+   if(spaceship1.Score>spaceship2.Score)
+   {
+     VGA.printtext(50,45,"P1 Wins");
+     VGA.setColor(WHITE);
+   }
+   else if(spaceship1.Score<spaceship2.Score)
+   {
+     VGA.printtext(50,45,"P2 Wins");
+     VGA.setColor(WHITE);
+   }
+   else
+   {
+      VGA.printtext(65,45,"Tie");
+      VGA.setColor(WHITE);
+   }
+   if(digitalRead(FPGA_BTN_1))
+   {
+      gameState = 0;
+      spaceship2.active = true;
+      spaceship1.active = true; 
+
+      spaceship2.Score =0;
+      spaceship1.Score =0;
+      
+      spaceship1.x =40;      
+      spaceship2.x =100;
+
+     for(int i = 0; i<5; i++)
+     {
+        bees[i]->active = false;
+        owls[i]->active = false;
+        owls[i]->projectile->active=false;
+     }
+     VGA.clear();
+   }
+}
 

@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "Spaceship.h"
 #include "Owl.h"
+
+
 Renderer::Renderer()
 {
     //ctor
@@ -14,14 +16,16 @@ Renderer::~Renderer()
 }
 
 void Renderer::render(Sprite* sprite){
-    if(!sprite->active)
-      return;
-    VGA.writeArea(sprite->x,sprite->y,sprite->width,sprite->height,sprite->PixelMap);
     if(sprite->instanceOf == 'O')
     {
        Owl* owl = (Owl*)sprite;
        render(owl->projectile); 
     }
+    
+    if(!sprite->active)
+      return;
+    VGA.writeArea(sprite->x,sprite->y,sprite->width,sprite->height,sprite->PixelMap);
+    
     if(sprite->instanceOf == 'P')
     {
       Spaceship* spaceship = (Spaceship*)sprite;

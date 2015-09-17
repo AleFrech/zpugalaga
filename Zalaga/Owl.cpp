@@ -12,7 +12,7 @@ Owl::Owl(int x, int y, unsigned char* enemyImage)
   movement = true;
   instanceOf = 'O';
   direction = 'r';
-  movementRate = 15;  
+  movementRate = 7;  
   movementCounter = 0;
   shootingCooldownRate = 100;
   shootingCooldownTime = 0;
@@ -40,7 +40,7 @@ void Owl::processMovementPattern(){
    
 
   if(projectile->active){
-          if(projectile->y >120 ){
+          if(projectile->y > 120  - projectile->height ){
               projectile->active = false;              
           }
           
@@ -63,6 +63,8 @@ void Owl::initProjectile(unsigned char* image)
 {
           projectile = new Projectile(x+8,y-height,image);
           projectile->direction = 'd';
+          projectile->width = 12;
+          projectile->height = 10;
 }
 /*
 
