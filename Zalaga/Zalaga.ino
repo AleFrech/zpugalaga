@@ -163,10 +163,19 @@ void setup(){
 
   void handleCollisions(int i);
 
+bool startGame=false;
+bool credits = false;
+bool endGame = false;
+int gameState = 1;
 void loop(){
+  if(!spaceship1.active && !spaceship2.active && gameState == 0){
+        gameState = 2;
+  }
+  
+  if(gameState == 0){
   VGA.clear();
-  char* scorePlayer1;
-  char* scorePlayer2;
+  char scorePlayer1[4];
+  char scorePlayer2[4];
   VGA.printtext(0, 0, "P1:");
   itoa(spaceship1.Score,scorePlayer1,10);
   VGA.printtext(30, 0, scorePlayer1);
@@ -188,7 +197,7 @@ void loop(){
     {  
       int horizontalCoordinate = (rand() % (9) + 0);
       horizontalCoordinate*=16;
-      int verticalCoordinate = rand() % 20 + 0;    
+      int verticalCoordinate = rand() % 22 + 10;    
       if(!bees[i]->active){
         reactivateEntity(bees[i],horizontalCoordinate,verticalCoordinate);
         spawnTimer = spawnTimerCooldown;
@@ -239,6 +248,64 @@ void loop(){
     spaceship2.Score =0;
     spaceship1.Score =0;
   }
+  }else if(gameState == 1){
+      if(credits){
+        VGA.setColor(WHITE);
+        VGA.printtext(20, 25,"Alejandro Frech");
+        VGA.printtext(20, 55,"Brandon Napky");
+        VGA.printtext(20, 85,"Manuel Salguero");
+        if(digitalRead(FPGA_BTN_1))
+          credits = false;
+      }else
+      {
+      VGA.printtext(60, 30,"ZALAGA");
+      if(!digitalRead(FPGA_SW_0)){
+        VGA.setColor(BLUE);
+      }
+      VGA.printtext(48,53, "Play Game");
+      VGA.setColor(WHITE);
+      if(digitalRead(FPGA_SW_0)){
+        VGA.setColor(BLUE);
+      }
+      VGA.printtext(55,73,"Credits");
+      VGA.setColor(WHITE);
+      VGA.clear();
+      if(digitalRead(FPGA_BTN_0))
+        if(!digitalRead(FPGA_SW_0)){
+          gameState =0;
+        }else
+          credits = true;
+      }
+  }else if(gameState == 2){
+    VGA.clear();
+    //startGame = false;
+       endGame = true;
+       startGame=false;
+       VGA.printtext(60, 30, "Game Over");
+       VGA.setColor(RED);
+       if(spaceship1.Score>spaceship2.Score){
+         VGA.printtext(48,53,"Player 1 Wins");
+         VGA.setColor(WHITE);
+       }else if(spaceship1.Score<spaceship2.Score){
+         VGA.printtext(48,53,"Player 2 Wins");
+         VGA.setColor(WHITE);
+       }else{
+          VGA.printtext(48,53,"Tie");
+          VGA.setColor(WHITE);
+       }
+       if(digitalRead(FPGA_BTN_1)){
+         gameState = 1;
+         spaceship2.active = true;
+          spaceship1.active = true; 
+          
+          spaceship2.Score =0;
+          spaceship1.Score =0;
+         for(int i = 0; i<5; i++){
+          bees[i]->active = true;
+          owls[i]->active = true;
+        }
+       }
+  }
 }
 
 
@@ -287,6 +354,11 @@ void reactivateEntity(Sprite* sprite, int x, int y)
   sprite->active = true;
   sprite->x = x;
   sprite->y = y;
+  
+  if(sprite->instanceOf == 'O')
+  {
+    Owl* _owl = (Owl*)sprite;
+    _owl->projectile->active = true;
+  }
 }
-
-
+  
